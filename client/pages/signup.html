@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Signup</title>
+  <style>
+    body {
+      text-align: center;
+    }
+    h2 {
+      color: #333;
+    }
+    form {
+      margin: 20px auto;
+      width: 300px;
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    input[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    a{
+        float: right;
+        margin-top: 20px;
+        font-size: 18px;
+        text-decoration: none;
+
+    }
+  </style>
+</head>
+<body>
+  <h2>Signup</h2>
+  <form>
+    <input type="text" name="username" id="name" placeholder="Username" required>
+    <br>
+    <input type="password" name="password" id="password" placeholder="Password" required>
+    <br>
+    <input type="submit" value="Signup" id="signup">
+    <a href="./login.html">Login?</a>
+  </form>
+</body>
+        <script>
+            const form = document.getElementById('signup')
+        form.addEventListener("click",(event)=>{
+            event.preventDefault()
+            SignUp();
+        })
+
+        async function SignUp(){
+  
+            const name = document.getElementById("name").value;
+            const pass = document.getElementById("password").value;
+            // console.log(name,pass)
+            if(name && pass){
+                let detail={
+                    name:name,
+                    password:pass
+                }
+                console.log(detail)
+                try {
+                    const res = await fetch("https://real-lime-kingfisher-tam.cyclic.app/user/register",{
+                        method:'POST',
+                        body:`${JSON.stringify(detail)}`,
+                        headers:{
+                            'Content-Type':'application/json'
+                        }
+
+                    })
+                    const data = await res.json();
+                    if(data.status=='success'){
+                        alert("Data Saved Succfully, Login Here")
+                        location.href = "./login.html"
+                    }else if(data.status=='duplicate'){
+                        alert("Username not available")
+                    }else{
+                        alert("Problem with signup, Try again")
+                    }
+                } catch (error) {
+                console.log(error)
+                }
+            }
+        }
+    </script>
+</html>

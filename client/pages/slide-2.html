@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Select Your Wake Time</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+    }
+
+    .time-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    input[type="time"] {
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #fff;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        outline: none;
+    }
+
+    input[type="time"]::-webkit-calendar-picker-indicator {
+        background-color: transparent;
+        color: #999;
+        cursor: pointer;
+    }
+
+    button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-top: 20px;
+
+        font-size: 16px;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    button:active {
+        background-color: #004499;
+    }
+</style>
+
+<body>
+    <div class="container">
+
+        <h2>Select Your Wake Time</h2>
+        <div class="time-container">
+            <input type="time" id="wake-time">
+        </div>
+        <button id="click">Submit</button>
+    </div>
+    <script>
+        const wakeTimeInput = document.getElementById('wake-time');
+        const submit = document.getElementById('click')
+        submit.addEventListener('click', function () {
+            const selectedTime = wakeTimeInput.value;
+            console.log(selectedTime);
+            if(selectedTime){
+                let data = JSON.parse(localStorage.getItem('sleep-data')) || {};
+            data.wake_time = selectedTime;
+            localStorage.setItem('sleep-data', JSON.stringify(data))
+            location.href = "./slide-3.html"
+            }else{
+                alert("Select your wake up time")
+            }
+        });
+    </script>
+</body>
+
+</html>

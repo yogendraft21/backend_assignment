@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <style>
+    body {
+      text-align: center;
+    }
+    h2 {
+      color: #333;
+    }
+    form {
+      margin: 20px auto;
+      width: 300px;
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    input[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    a{
+        float: right;
+        margin-top: 20px;
+        font-size: 18px;
+        text-decoration: none;
+
+    }
+  </style>
+</head>
+<body>
+  <h2>Login</h2>
+  <form>
+    <input type="text" name="username" id="name" placeholder="Username" required>
+    <br>
+    <input type="password" name="password" id="password" placeholder="Password" required>
+    <br>
+    <input type="submit" value="Login" id="login">
+    <a href="./signup.html">Signup?</a>
+  </form>
+</body>
+    
+        <script>
+             const form = document.getElementById('login')
+        form.addEventListener("click",(event)=>{
+            event.preventDefault()
+            SignUp();
+        })
+
+        async function SignUp(){
+  
+            const name = document.getElementById("name").value;
+            const pass = document.getElementById("password").value;
+            // console.log(name,pass)
+            if(name && pass){
+                let detail={
+                    name:name,
+                    password:pass
+                }
+                // console.log(detail)
+                try {
+                    const res = await fetch("https://real-lime-kingfisher-tam.cyclic.app/user/login",{
+                        method:'POST',
+                        body:`${JSON.stringify(detail)}`,
+                        headers:{
+                            'Content-Type':'application/json'
+                        }
+
+                    })
+
+                    const data = await res.json();
+                    console.log(data)
+                    if(data.data){
+                        location.href="./result.html"
+                        localStorage.setItem("token",JSON.stringify(data.token))
+                        alert("Your Data Already Presented")
+                    }
+                    else if(data.msg=="Login Success"){
+                        localStorage.setItem("token",JSON.stringify(data.token))
+                        location.href="./slide-1.html"
+                    }
+                    else if(data.msg=='Invalid'){
+                        alert("Invalid detail")
+                    }
+                }catch(error){
+                    alert("Invalid Detail")
+                }
+                    
+            }
+        }
+        </script>
+</html>
